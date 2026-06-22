@@ -49,7 +49,7 @@ if (isset($_GET['status'])) {
     if ($_GET['status'] === 'cancelado') {
         $msg = "Agendamento cancelado com sucesso!";
     } elseif ($_GET['status'] === 'sucesso') {
-        $msg = "🎉 Perfeito! Seu agendamento foi confirmado e já está na nossa lista!";
+        $msg = " Perfeito! Seu agendamento foi confirmado e já está na nossa lista!";
     }
 }
 
