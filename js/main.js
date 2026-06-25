@@ -27,45 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // ============================================
-    // NEWSLETTER VIA AJAX
-    // ============================================
-    const newsletterForm = document.getElementById('newsletter-form');
-    console.log('Formulário encontrado:', newsletterForm);
-
-    if (newsletterForm) {
-        newsletterForm.addEventListener('submit', async function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            console.log('Submit interceptado!');
-
-            const email = this.querySelector('input[name="email"]').value;
-            const feedback = document.querySelector('.newsletter-feedback');
-            console.log('Feedback encontrado:', feedback);
-
-            try {
-                const response = await fetch('php/newsletter.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: 'email=' + encodeURIComponent(email)
-                });
-
-                const text = await response.text();
-                console.log('Resposta do PHP:', text);
-
-                if (text.trim() === 'ok') {
-                    feedback.textContent = 'Obrigado pela inscrição! Você vai receber nossas novidades em breve.';
-                    this.reset();
-                } else {
-                    feedback.textContent = 'Por favor, informe um e-mail válido.';
-                }
-            } catch(err) {
-                console.log('Erro:', err);
-                feedback.textContent = 'Erro ao enviar. Tente novamente.';
-            }
-        });
-    }
-
-    // ============================================
     // DASHBOARD ADMIN — TABS
     // ============================================
     const urlParams = new URLSearchParams(window.location.search);
@@ -136,15 +97,40 @@ function togglePasswordVisibility(inputId, button) {
 }
 
 // ============================================
-// NEWSLETTER
+// NEWSLETTER VIA AJAX (delegação de evento)
 // ============================================
-function showNewsletterFeedback(message, type) {
+document.addEventListener('submit', async function(e) {
+    const form = e.target.closest('#newsletter-form');
+    if (!form) return;
+
+    e.preventDefault();
+    e.stopPropagation();
+    console.log('Submit interceptado!');
+
+    const email = form.querySelector('input[name="email"]').value;
     const feedback = document.querySelector('.newsletter-feedback');
-    if (feedback) {
-        feedback.textContent = message;
-        feedback.className = `newsletter-feedback ${type}`;
+
+    try {
+        const response = await fetch('php/newsletter.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+            body: 'email=' + encodeURIComponent(email)
+        });
+
+        const text = await response.text();
+        console.log('Resposta do PHP:', text);
+
+        if (text.trim() === 'ok') {
+            feedback.textContent = 'Obrigado pela inscrição! Você vai receber nossas novidades em breve.';
+            form.reset();
+        } else {
+            feedback.textContent = 'Por favor, informe um e-mail válido.';
+        }
+    } catch (err) {
+        console.log('Erro:', err);
+        feedback.textContent = 'Erro ao enviar. Tente novamente.';
     }
-}
+});
 
 // ============================================
 // EVENTOS GLOBAIS
