@@ -3,15 +3,6 @@ session_start();
 
 $usuario_logado = isset($_SESSION['usuario_id']);
 $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
-
-$newsletterMessage = null;
-if (isset($_GET['newsletter'])) {
-    if ($_GET['newsletter'] === 'ok') {
-        $newsletterMessage = 'Obrigado pela inscrição! Você vai receber nossas novidades em breve.';
-    } else {
-        $newsletterMessage = 'Por favor, informe um e-mail válido.';
-    }
-}
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -132,13 +123,11 @@ if (isset($_GET['newsletter'])) {
             <div class="footer-newsletter">
                 <h3>Receba nossas novidades!</h3>
                 <p>Cadastre seu e-mail e fique por dentro de todas as novidades Aura Bela.</p>
-                <form class="newsletter-form" action="php/newsletter.php" method="POST">
+                <form class="newsletter-form" id="newsletter-form">
                     <input type="email" name="email" placeholder="Ex: Maria@gmail.com" required>
                     <button type="submit" id="btn-inscrever-newsletter" class="btn-newsletter">Inscrever</button>
                 </form>
-                <?php if ($newsletterMessage): ?>
-                    <p class="newsletter-feedback"><?php echo htmlspecialchars($newsletterMessage); ?></p>
-                <?php endif; ?>
+                <p class="newsletter-feedback"></p>
             </div>
         </div>
         
