@@ -145,7 +145,8 @@ $result_historico = mysqli_query($conn, $query_historico);
                             <p><strong>Data:</strong> <?php echo $agend['data_formatada']; ?> às <?php echo $agend['hora_formatada']; ?>h</p>
                         </div>
                         <div>
-                            <a href="meus-agendamentos.php?cancelar_id=<?php echo $agend['id']; ?>" class="btn-cancel" onclick="return confirm('Tem certeza de que deseja cancelar este agendamento?')">Cancelar</a>
+                            <a href="meus-agendamentos.php?cancelar_id=<?php echo $agend['id']; ?>" class="btn-cancel" onclick="return confirm
+                            ('Tem certeza de que deseja cancelar este agendamento?')">Cancelar</a>
                         </div>
                     </div>
                 <?php endwhile; ?>

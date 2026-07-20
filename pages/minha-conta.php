@@ -73,7 +73,8 @@ if (!$usuario) {
 
             <div class="input-group">
                 <label>E-mail (Login)</label>
-                <input type="email" value="<?= htmlspecialchars($usuario['email']) ?>" disabled style="background-color: #f5f5f5; color: #888; cursor: not-allowed;">
+                <input type="email" value="<?= htmlspecialchars($usuario['email']) ?>" disabled style="background-color:
+                 #f5f5f5; color: #888; cursor: not-allowed;">
             </div>
 
             <div class="input-group">

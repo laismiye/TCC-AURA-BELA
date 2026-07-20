@@ -100,7 +100,8 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             <div class="service-row reverse">
                 <div class="service-info-block">
                     <h2>Drenagem</h2>
-                    <p>A drenagem linfática ajuda a reduzir o inchaço, a melhorar a circulação e proporcionar sensação de leveza e bem-estar.</p>
+                    <p>A drenagem linfática ajuda a reduzir o inchaço, a melhorar a circulação e proporcionar sensação 
+                        de leveza e bem-estar.</p>
                     <span class="price">R$ 200,00</span>
                     <a href="agendar.php?servico=Drenagem" class="btn-schedule">Agendar agora</a>
                 </div>
