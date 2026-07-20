@@ -65,10 +65,12 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             </div>
             <div class="reiki-text-container">
                 <p>
-                    O Reiki é uma prática terapêutica baseada na energia vital universal. Seu principal objetivo é promover equilíbrio entre corpo, mente e emoções, ajudando a reduzir o estresse, trazer relaxamento e melhorar o bem-estar.
+                    O Reiki é uma prática terapêutica baseada na energia vital universal. Seu principal objetivo é promover equilíbrio entre corpo, mente e emoções,
+                    ajudando a reduzir o estresse, trazer relaxamento e melhorar o bem-estar.
                 </p>
                 <p>
-                    Essa energia atua na harmonização dos chakras e no alinhamento físico, emocional, mental e espiritual, proporcionando mais qualidade de vida, paz interior e equilíbrio energético.
+                    Essa energia atua na harmonização dos chakras e no alinhamento físico, emocional, mental e espiritual, proporcionando mais qualidade de vida,
+                    paz interior e equilíbrio energético.
                 </p>
             </div>
         </section>

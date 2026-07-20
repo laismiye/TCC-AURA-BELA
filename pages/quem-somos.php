@@ -62,7 +62,10 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             </div>
             <div class="about-text-container">
                 <p>
-                    A Aura Bela nasceu com o propósito de valorizar a beleza, a autoestima e o bem-estar, unindo estética, medicina integrativa e práticas de Reiki para proporcionar cuidado, equilíbrio e experiências transformadoras. Acreditamos que a verdadeira beleza está na autenticidade, por isso trabalhamos com dedicação, inovação e atendimento humanizado para promover harmonia, confiança e qualidade de vida.
+                    A Aura Bela nasceu com o propósito de valorizar a beleza, a autoestima e o bem-estar, unindo estética, medicina
+                    integrativa e práticas de Reiki para proporcionar cuidado, equilíbrio e experiências transformadoras.
+                    Acreditamos que a verdadeira beleza está na autenticidade, por isso trabalhamos com dedicação, inovação
+                    e atendimento humanizado para promover harmonia, confiança e qualidade de vida.
                 </p>
             </div>
         </section>
