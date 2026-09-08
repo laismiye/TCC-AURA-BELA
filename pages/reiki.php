@@ -1,4 +1,5 @@
 <?php
+// Inicia ou recupera a sessão ativa do usuário
 session_start();
 $usuario_logado = isset($_SESSION['usuario_id']);
 $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
@@ -13,18 +14,22 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Biblioteca Font Awesome para os ícones dos cards -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
+    <!-- Menu de Navegação Superior -->
     <header class="navbar">
         <div class="logo-text">Aura Bela</div>
         <nav class="nav-links">
             <a href="../index.php">Início</a>
             <a href="quem-somos.php">Quem somos</a>
+            <!-- Link ativo destacando a página atual -->
             <a href="reiki.php" class="active">Reiki</a>
             <a href="servicos.php">Serviços</a>
 
+            <!-- Menu de perfil e dropdown com validação de login -->
             <div class="profile-container">
                 <?php if ($usuario_logado): ?>
                     <span class="profile-username">Olá! <?php echo htmlspecialchars($usuario_nome); ?></span>
@@ -54,11 +59,13 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </nav>
     </header>
 
+    <!-- Conteúdo Principal da Página -->
     <main class="page-reiki">
         <section class="reiki-header">
             <h1>Sobre o Reiki</h1>
         </section>
 
+        <!-- Seção Introdutória com Imagem e Descrição -->
         <section class="reiki-intro">
             <div class="reiki-img-container">
                 <img src="../img/img-reiki.png" alt="Sessão de Reiki" class="reiki-main-img">
@@ -75,6 +82,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             </div>
         </section>
 
+        <!-- Grid de Benefícios (Físico, Emocional, Mental e Espiritual) -->
         <section class="reiki-grid">
             <div class="reiki-card">
                 <div class="reiki-icon">
@@ -110,6 +118,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </section>
     </main>
 
+    <!-- Rodapé Simples -->
     <footer class="footer-simple">
         <div class="footer-bottom">
             <nav class="footer-links">
@@ -122,6 +131,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </div>
     </footer>
 
+    <!-- Script JavaScript para controle de interações -->
+    <script src="../js/main.js"></script>
 </body>
 </html>
-<script src="../js/main.js"></script>

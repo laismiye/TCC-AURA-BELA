@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="auth-body">
+    <!-- Topo da página com navegação simples -->
     <header class="navbar auth-navbar">
         <div class="logo-text">Aura Bela</div>
         <a href="?form=login" class="profile-icon" title="Ir para o login">
@@ -20,12 +21,14 @@
 
     <main class="auth-container">
 
+        <!-- Card 1: Formulário de Login -->
         <div class="auth-card" id="login-card">
             <div class="auth-logo-wrapper">
                 <img src="../img/logo.png" alt="Aura Bela Logo" class="auth-min-logo">
             </div>
             <h1 class="auth-title">Login</h1>
 
+            <!-- Alerta em caso de erro na tentativa de login -->
             <?php if (isset($_GET['erro'])): ?>
                 <p class="auth-error">E-mail ou senha incorretos.</p>
             <?php endif; ?>
@@ -39,6 +42,7 @@
                     <label for="login-password">Senha</label>
                     <div class="input-with-icon">
                         <input type="password" id="login-password" name="senha" placeholder="Digite sua senha" required>
+                        <!-- Botão que aciona a função JavaScript para revelar/ocultar a senha -->
                         <button type="button" class="toggle-password" onclick="togglePasswordVisibility('login-password', this)">
                             <i class="fa-regular fa-eye-slash"></i>
                         </button>
@@ -50,17 +54,20 @@
                 <button type="submit" class="btn-auth-submit">Entrar</button>
             </form>
 
+            <!-- Alternância de tela: oculta login e exibe cadastro via JS -->
             <div class="auth-switch">
                 <p>Não possui conta? <a href="#" onclick="switchForm('cadastro')">Criar conta</a></p>
             </div>
         </div>
 
+        <!-- Card 2: Formulário de Cadastro (Inicia oculto pela classe d-none) -->
         <div class="auth-card d-none" id="cadastro-card">
             <div class="auth-logo-wrapper">
                 <img src="../img/logo.png" alt="Aura Bela Logo" class="auth-min-logo">
             </div>
             <h1 class="auth-title">Cadastro</h1>
 
+            <!-- Mensagem de confirmação após cadastro realizado -->
             <?php if (isset($_GET['cadastro']) && $_GET['cadastro'] === 'sucesso'): ?>
                 <p class="auth-success">Cadastro realizado com sucesso! Faça login.</p>
             <?php endif; ?>
@@ -82,6 +89,7 @@
                     <label for="register-confirm-password">Confirmar senha</label>
                     <div class="input-with-icon">
                         <input type="password" id="register-confirm-password" name="confirmar_senha" placeholder="Confirme sua senha" required>
+                        <!-- Botão para revelar/ocultar senha no campo de confirmação -->
                         <button type="button" class="toggle-password" onclick="togglePasswordVisibility('register-confirm-password', this)">
                             <i class="fa-regular fa-eye-slash"></i>
                         </button>
@@ -90,6 +98,7 @@
                 <button type="submit" class="btn-auth-submit">Cadastrar</button>
             </form>
 
+            <!-- Alternância de tela: oculta cadastro e exibe login via JS -->
             <div class="auth-switch">
                 <p>Já possui uma conta? <a href="#" onclick="switchForm('login')">Fazer Login</a></p>
             </div>
@@ -103,4 +112,5 @@
 
 </body>
 </html>
+<!-- Script que controla as funções switchForm() e togglePasswordVisibility() -->
 <script src="../js/main.js"></script>

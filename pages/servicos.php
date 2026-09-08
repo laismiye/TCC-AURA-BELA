@@ -1,4 +1,5 @@
 <?php
+// Inicia ou retoma a sessão ativa para verificar a autenticação do usuário
 session_start();
 $usuario_logado = isset($_SESSION['usuario_id']);
 $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
@@ -16,14 +17,17 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
 </head>
 <body>
 
+    <!-- Menu de Navegação Superior -->
     <header class="navbar">
         <div class="logo-text">Aura Bela</div>
         <nav class="nav-links">
             <a href="../index.php">Início</a>
             <a href="quem-somos.php">Quem somos</a>
             <a href="reiki.php">Reiki</a>
+            <!-- Classe 'active' aplicada para destacar a página atual -->
             <a href="servicos.php" class="active">Serviços</a>
 
+            <!-- Bloco do usuário e dropdown do perfil -->
             <div class="profile-container">
                 <?php if ($usuario_logado): ?>
                     <span class="profile-username">Olá! <?php echo htmlspecialchars($usuario_nome); ?></span>
@@ -53,6 +57,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </nav>
     </header>
 
+    <!-- Conteúdo Principal de Serviços -->
     <main class="page-services">
     
         <section class="services-header">
@@ -60,13 +65,13 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             <p>Tratamentos desenvolvidos para realçar sua beleza natural e proporcionar mais qualidade de vida.</p>
         </section>
 
+        <!-- Lista de Serviços (utiliza a classe 'reverse' alternadamente para criar o efeito zig-zag) -->
         <section class="services-list-container">
             
             <div class="service-row">
                 <div class="service-info-block">
                     <h2>Preenchimento labial</h2>
-                    <p>O preenchimento labial é um procedimento estético que realça a beleza natural dos lábios, trazendo mais volume,
-                    definição e hidratação, além de bem-estar.</p>
+                    <p>O preenchimento labial é um procedimento estético que realça a beleza natural dos lábios, trazendo mais volume, definição e hidratação, além de bem-estar.</p>
                     <span class="price">R$ 1.500,00</span>
                     <a href="agendar.php?servico=Preenchimento labial" class="btn-schedule">Agendar agora</a>
                 </div>
@@ -90,7 +95,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             <div class="service-row">
                 <div class="service-info-block">
                     <h2>Botox</h2>
-                    <p>Reduz marcas, lines de expressão e ajuda a prevenir rugas, trazendo um aspecto jovem e natural.</p>
+                    <p>Reduz marcas, linhas de expressão e ajuda a prevenir rugas, trazendo um aspecto jovem e natural.</p>
                     <span class="price">R$ 1.150,00</span>
                     <a href="agendar.php?servico=Botox" class="btn-schedule">Agendar agora</a>
                 </div>
@@ -102,8 +107,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             <div class="service-row reverse">
                 <div class="service-info-block">
                     <h2>Drenagem</h2>
-                    <p>A drenagem linfática ajuda a reduzir o inchaço, a melhorar a circulação e proporcionar sensação 
-                        de leveza e bem-estar.</p>
+                    <p>A drenagem linfática ajuda a reduzir o inchaço, a melhorar a circulação e proporcionar sensação de leveza e bem-estar.</p>
                     <span class="price">R$ 200,00</span>
                     <a href="agendar.php?servico=Drenagem" class="btn-schedule">Agendar agora</a>
                 </div>
@@ -151,7 +155,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             <div class="service-row reverse">
                 <div class="service-info-block">
                     <h2>Micropigmentação</h2>
-                    <p>A micropigmentação realça e define os sobrancelhas, lábios ou olhos, trazendo mais praticidade, harmonia e autoestima.</p>
+                    <p>A micropigmentação realça e define as sobrancelhas, lábios ou olhos, trazendo mais praticidade, harmonia e autoestima.</p>
                     <span class="price">R$ 450,00</span>
                     <a href="agendar.php?servico=Micropigmentação" class="btn-schedule">Agendar agora</a>
                 </div>
@@ -162,7 +166,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
 
             <div class="service-row">
                 <div class="service-info-block">
-                    <h2>limpeza de pele</h2>
+                    <h2>Limpeza de pele</h2>
                     <p>A limpeza de pele remove impurezas, controla a oleosidade e deixa a pele mais saudável, leve e revitalizada.</p>
                     <span class="price">R$ 150,00</span>
                     <a href="agendar.php?servico=Limpeza de pele" class="btn-schedule">Agendar agora</a>
@@ -174,7 +178,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
 
             <div class="service-row reverse">
                 <div class="service-info-block">
-                    <h2>sessão de laser</h2>
+                    <h2>Sessão de laser</h2>
                     <p>As sessões de laser ajudam na remoção de pelos e no cuidado da pele, proporcionando mais praticidade, confiança e autoestima.</p>
                     <span class="price">R$ 250,00</span>
                     <a href="agendar.php?servico=Sessão de laser" class="btn-schedule">Agendar agora</a>
@@ -187,6 +191,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </section>
     </main>
 
+    <!-- Rodapé Padrão -->
     <footer class="footer-simple">
         <div class="footer-bottom">
             <nav class="footer-links">
@@ -198,6 +203,8 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             <p class="copyright">&copy; 2026 Aura Bela. Todos os direitos reservados.</p>
         </div>
     </footer>
+
+    <!-- Script de Interatividade -->
+    <script src="../js/main.js"></script>
 </body>
 </html>
-<script src="../js/main.js"></script>

@@ -11,16 +11,20 @@
 </head>
 <body class="admin-login-body">
 
+    <!-- Logotipo principal no topo do layout de login -->
     <div class="logo-text">Aura Bela</div>
 
+    <!-- Container centralizado do formulário de autenticação -->
     <div class="auth-card">
         <h1 class="auth-title">Área Admin</h1>
         <p class="auth-subtitle">Acesso restrito à equipe Aura Bela</p>
 
+        <!-- Exibe alerta dinâmico se a autenticação falhar em auth-admin.php -->
         <?php if (isset($_GET['erro'])): ?>
             <div class="error-msg">E-mail ou senha incorretos.</div>
         <?php endif; ?>
 
+        <!-- Formulário que envia as credenciais para processamento -->
         <form action="auth-admin.php" method="POST">
             <div class="input-group">
                 <label>Email</label>
@@ -33,6 +37,7 @@
             <button type="submit" class="btn-submit">Entrar</button>
         </form>
 
+        <!-- Link de navegação de retorno para a home pública -->
         <a href="../index.php" class="back-link">← Voltar ao site</a>
     </div>
 

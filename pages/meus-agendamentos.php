@@ -1,10 +1,12 @@
 <?php
+// Configurações para exibição de erros durante o desenvolvimento
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 session_start();
 
+// Verifica se o usuário está logado; caso contrário, redireciona para o login
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: login.php?form=login');
     exit;
@@ -12,6 +14,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 include '../php/conexao.php'; 
 
+// Garante a padronização do nome da variável de conexão com o banco
 if (isset($conexao) && !isset($conn)) {
     $conn = $conexao;
 }
@@ -20,21 +23,22 @@ $usuario_id = $_SESSION['usuario_id'];
 $msg = "";
 $msg_erro = "";
 
-// --- Variáveis para o Header ---
-$usuario_logado = true; // Se passou pelo IF acima, com certeza está logado
-$usuario_nome = "Usuário"; // Nome padrão caso não encontre no banco
+// --- Variáveis de Cabeçalho ---
+$usuario_logado = true; // Confirma estado autenticado
+$usuario_nome = "Usuário"; // Valor padrão caso o nome não seja localizado
 
-// Busca o nome do usuário logado para exibir no "Olá! Nome"
-$query_user = "SELECT nome FROM usuarios WHERE id = '$usuario_id' LIMIT 1"; // Ajuste 'usuarios' se a tabela tiver outro nome
+// Consulta o nome do usuário logado para personalização da interface
+$query_user = "SELECT nome FROM usuarios WHERE id = '$usuario_id' LIMIT 1"; 
 $result_user = mysqli_query($conn, $query_user);
 if ($result_user && mysqli_num_rows($result_user) > 0) {
     $user_data = mysqli_fetch_assoc($result_user);
     $usuario_nome = $user_data['nome'];
 }
-// ---------------------------------
 
+// --- Processamento de Cancelamento ---
 if (isset($_GET['cancelar_id'])) {
     $id_agendamento = mysqli_real_escape_string($conn, $_GET['cancelar_id']);
+    // Atualiza o status para 'Cancelado' garantindo que o agendamento pertença ao usuário logado
     $delete_query = "UPDATE agendamentos SET status = 'Cancelado' WHERE id = '$id_agendamento' AND usuario_id = '$usuario_id'";
     
     if (mysqli_query($conn, $delete_query)) {
@@ -45,14 +49,16 @@ if (isset($_GET['cancelar_id'])) {
     }
 }
 
+// Mensagens de feedback baseadas na URL
 if (isset($_GET['status'])) {
     if ($_GET['status'] === 'cancelado') {
         $msg = "Agendamento cancelado com sucesso!";
     } elseif ($_GET['status'] === 'sucesso') {
-        $msg = " Perfeito! Seu agendamento foi confirmado e já está na nossa lista!";
+        $msg = "Perfeito! Seu agendamento foi confirmado e já está na nossa lista!";
     }
 }
 
+// Consulta de agendamentos futuros e ativos
 $query_ativos = "SELECT id, servico, DATE_FORMAT(data_agendamento, '%d/%m/%Y') as data_formatada, TIME_FORMAT(horario_agendamento, '%H:%i') as hora_formatada 
                  FROM agendamentos 
                  WHERE usuario_id = '$usuario_id' 
@@ -62,6 +68,7 @@ $query_ativos = "SELECT id, servico, DATE_FORMAT(data_agendamento, '%d/%m/%Y') a
 
 $result_ativos = mysqli_query($conn, $query_ativos);
 
+// Consulta do histórico (datas passadas, concluídos ou cancelados)
 $query_historico = "SELECT id, servico, DATE_FORMAT(data_agendamento, '%d/%m/%Y') as data_formatada, TIME_FORMAT(horario_agendamento, '%H:%i') as hora_formatada, status 
                     FROM agendamentos 
                     WHERE usuario_id = '$usuario_id' 
@@ -83,6 +90,7 @@ $result_historico = mysqli_query($conn, $query_historico);
 </head>
 <body>
     
+    <!-- Cabeçalho principal com menu de usuário -->
     <header class="navbar">
         <div class="logo-text">Aura Bela</div>
         <nav class="nav-links">
@@ -99,6 +107,7 @@ $result_historico = mysqli_query($conn, $query_historico);
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
                 </a>
 
+                <!-- Submenu suspenso da conta -->
                 <?php if ($usuario_logado): ?>
                     <div class="profile-dropdown" id="profileDropdownMenu">
                         <a href="minha-conta.php">
@@ -123,6 +132,7 @@ $result_historico = mysqli_query($conn, $query_historico);
     <div class="page-wrapper">
         <h1 class="section-title-page">Painel de Agendamentos</h1>
 
+        <!-- Alertas de sucesso ou erro -->
         <?php if (!empty($msg)): ?>
             <div class="alert-success"><?php echo $msg; ?></div>
         <?php endif; ?>
@@ -131,6 +141,7 @@ $result_historico = mysqli_query($conn, $query_historico);
             <div class="alert-error"><?php echo $msg_erro; ?></div>
         <?php endif; ?>
 
+        <!-- Seção: Agendamentos Ativos -->
         <div class="schedule-section">
             <h2>Seus Próximos Compromissos</h2>
             <?php if (!$result_ativos || mysqli_num_rows($result_ativos) == 0): ?>
@@ -145,14 +156,15 @@ $result_historico = mysqli_query($conn, $query_historico);
                             <p><strong>Data:</strong> <?php echo $agend['data_formatada']; ?> às <?php echo $agend['hora_formatada']; ?>h</p>
                         </div>
                         <div>
-                            <a href="meus-agendamentos.php?cancelar_id=<?php echo $agend['id']; ?>" class="btn-cancel" onclick="return confirm
-                            ('Tem certeza de que deseja cancelar este agendamento?')">Cancelar</a>
+                            <!-- Ação de cancelamento com confirmação via JavaScript -->
+                            <a href="meus-agendamentos.php?cancelar_id=<?php echo $agend['id']; ?>" class="btn-cancel" onclick="return confirm('Tem certeza de que deseja cancelar este agendamento?')">Cancelar</a>
                         </div>
                     </div>
                 <?php endwhile; ?>
             <?php endif; ?>
         </div>
 
+        <!-- Seção: Histórico -->
         <div class="schedule-section">
             <h2>Histórico de Atendimentos</h2>
             <?php if (!$result_historico || mysqli_num_rows($result_historico) == 0): ?>

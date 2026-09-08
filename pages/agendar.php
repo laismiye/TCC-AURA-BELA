@@ -1,10 +1,10 @@
 <?php
-
+// Configurações de exibição de erros (útil durante o desenvolvimento)
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 
-
+// Função auxiliar para exibir blocos de erro formatados e encerrar a execução
 function pararComErro($mensagem) {
     echo "<div style='padding:20px; background:#FFE8E8; color:#A71D1D; border:1px solid #A71D1D; font-family:sans-serif; border-radius:8px; max-width:600px; margin:20px auto;'>";
     echo "<h3>⚠️ Erro Identificado no Agendamento:</h3>";
@@ -18,6 +18,7 @@ try {
         session_start();
     }
 
+    // Localiza dinamicamente o arquivo de conexão dependendo do diretório pai
     if (file_exists('php/conexao.php')) {
         $caminho_conexao = 'php/conexao.php'; 
         $prefixo_pasta = '';
@@ -34,6 +35,7 @@ try {
         pararComErro("A variável de conexão <code>\$conn</code> não foi iniciada dentro do seu arquivo conexao.php.");
     }
 
+    // Validação de autenticação: obriga o usuário a estar logado
     if (!isset($_SESSION['usuario_id']) && !isset($_SESSION['user_id']) && !isset($_SESSION['id'])) {
         $url_login = $prefixo_pasta . 'pages/login.php?form=login&erro=necessario_login';
         echo "<script>
@@ -43,6 +45,7 @@ try {
         exit;
     }
 
+    // Identifica a chave de sessão correspondente ao ID do usuário
     $id_usuario = null;
     if (isset($_SESSION['usuario_id'])) $id_usuario = $_SESSION['usuario_id'];
     elseif (isset($_SESSION['user_id'])) $id_usuario = $_SESSION['user_id'];
@@ -51,6 +54,7 @@ try {
     $nome_padrao = "";
     $sobrenome_padrao = "";
 
+    // Busca os dados do usuário para pré-preencher os campos de nome e sobrenome
     if ($id_usuario) {
         $busca_cliente = $conn->prepare("SELECT nome FROM usuarios WHERE id = ?");
         if ($busca_cliente) {
@@ -59,6 +63,7 @@ try {
             $resultado = $busca_cliente->get_result();
             
             if ($dados_cliente = $resultado->fetch_assoc()) {
+                // Divide o nome completo em primeiro nome e sobrenome
                 $nome_completo = explode(" ", $dados_cliente['nome']);
                 $nome_padrao = $nome_completo[0];
                 $sobrenome_padrao = isset($nome_completo[1]) ? implode(" ", array_slice($nome_completo, 1)) : '';
@@ -69,11 +74,14 @@ try {
         }
     }
 
+    // Captura o serviço selecionado e a data desejada (padrão: hoje)
     $servico_selecionado = isset($_GET['servico']) ? htmlspecialchars($_GET['servico']) : 'Serviço Geral';
     $data_escolhida = isset($_GET['data']) ? $_GET['data'] : date('Y-m-d');
 
+    // Grade de horários padrão do estabelecimento
     $horarios_padrao = ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
 
+    // Busca agendamentos já existentes na data para desabilitar horários ocupados
     $ocupados = [];
     $stmt = $conn->prepare("SELECT horario_agendamento FROM agendamentos WHERE data_agendamento = ?");
     
@@ -108,6 +116,7 @@ try {
 </head>
 <body>
 
+    <!-- Cabeçalho de navegação principal -->
     <header class="navbar">
         <div class="logo-text">Aura Bela</div>
         <nav class="nav-links">
@@ -125,6 +134,7 @@ try {
         <div class="schedule-container">
             <h1 class="auth-title">Agende seu Horário</h1>
             
+            <!-- Form GET: Filtro por data (recarrega a página ao mudar o campo) -->
             <form method="GET" id="dateForm" style="margin-bottom: 25px;">
                 <input type="hidden" name="servico" value="<?= urlencode($servico_selecionado) ?>">
                 <div class="input-group">
@@ -133,6 +143,7 @@ try {
                 </div>
             </form>
 
+            <!-- Form POST: Envio final dos dados do agendamento -->
             <form action="<?= $prefixo_pasta ?>php/processa_agendamento.php" method="POST">
                 <input type="hidden" name="servico" value="<?= $servico_selecionado ?>">
                 <input type="hidden" name="data" value="<?= $data_escolhida ?>">
@@ -157,6 +168,7 @@ try {
                     <input type="tel" name="telefone" placeholder="Ex: (11) 99999-9999" required>
                 </div>
 
+                <!-- Seleção de horários dinâmicos baseados nos horários já ocupados no banco -->
                 <div class="input-group">
                     <label>2. Escolha o Horário Disponível:</label>
                     <div class="time-grid">
@@ -176,6 +188,7 @@ try {
         </div>
     </main>
 
+    <!-- Rodapé global com formulário de inscrição na newsletter -->
     <footer>
         <div class="footer-top">
             <div class="footer-info">

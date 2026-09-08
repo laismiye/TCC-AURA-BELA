@@ -1,6 +1,8 @@
 <?php
+// Inicia ou retoma a sessão ativa para verificar se o usuário está logado
 session_start();
 
+// Define variáveis auxiliares para exibir personalizações da conta do usuário no menu
 $usuario_logado = isset($_SESSION['usuario_id']);
 $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
 ?>
@@ -10,25 +12,34 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aura Bela</title>
+
+    <!-- Versionamento do arquivo CSS via filemtime para evitar problemas com cache no navegador -->
     <link rel="stylesheet" href="css/style.css?v=<?php echo filemtime(__DIR__ . '/css/style.css'); ?>">
+    
+    <!-- Importação de fontes externas via Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <!-- Menu de Navegação Principal -->
     <header class="navbar">
         <div class="logo-text">Aura Bela</div>
         <nav class="nav-links">
+            <!-- Classe 'active' indicando a página atual -->
             <a href="index.php" class="active">Início</a>
             <a href="pages/quem-somos.php">Quem somos</a>
             <a href="pages/reiki.php">Reiki</a>
             <a href="pages/servicos.php">Serviços</a>
             
+            <!-- Área do usuário no menu -->
             <div class="profile-container">
                 <?php if ($usuario_logado): ?>
                     <span class="profile-username">Olá! <?php echo htmlspecialchars($usuario_nome); ?></span>
                 <?php endif; ?>
+                
+                <!-- Ícone de perfil com link condicional (Redireciona ao login se visitante) -->
                 <a href="<?php echo $usuario_logado ? '#' : 'pages/login.php?form=login'; ?>" class="profile-icon" id="profileDropdownBtn" title="<?php echo $usuario_logado ? 'Minha Conta' : 'Login / Cadastro'; ?>">
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -36,6 +47,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
                     </svg>
                 </a>
 
+                <!-- Submenu suspenso (Dropdown) exibido apenas quando logado -->
                 <?php if ($usuario_logado): ?>
                     <div class="profile-dropdown" id="profileDropdownMenu">
                         <a href="pages/minha-conta.php">
@@ -61,11 +73,13 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
     </header>
 
     <main>
+        <!-- Banner Principal (Hero) -->
         <section class="hero-section">
             <img src="img/banner.png" alt="Aura Bela Tratamento Estético" class="hero-image">
         </section>
 
         <div class="content-wrapper">
+            <!-- Seção de Apresentação -->
             <section class="about-section">
                 <div class="about-logo">
                     <img src="img/logo.png" alt="Logo Aura Bela">
@@ -77,6 +91,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
                 </div>
             </section>
 
+            <!-- Seção de Destaque dos Serviços -->
             <section class="services-section">
                 <div class="section-title">
                     <h2>Nossos Trabalhos</h2>
@@ -116,6 +131,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </div>
     </main>
 
+    <!-- Rodapé Principal -->
     <footer>
         <div class="footer-top">
             <div class="footer-info">
@@ -123,6 +139,8 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
                 <p>Segunda à sexta | 08:00 às 20:00</p>
                 <p>Sábado | 08:00 às 15:00</p>
             </div>
+            
+            <!-- Formulário da Newsletter conectado via AJAX -->
             <div class="footer-newsletter">
                 <h3>Receba nossas novidades!</h3>
                 <p>Cadastre seu e-mail e fique por dentro de todas as novidades Aura Bela.</p>
@@ -145,6 +163,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </div>
     </footer>
 
+    <!-- Botão Flutuante de Atendimento via WhatsApp -->
     <a href="https://wa.me/5511999999999?text=Ol%C3%A1%2C%20gostaria%20de%20agendar%20um%20hor%C3%A1rio%20na%20Aura%20Bela!"
        class="whatsapp-float"
        target="_blank"
@@ -157,6 +176,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
         </svg>
     </a>
 
+    <!-- Script com lógica interativa e envio de newsletter -->
     <script src="js/main.js"></script>
 </body>
 </html>

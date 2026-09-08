@@ -1,6 +1,12 @@
 <?php
+// Exibe todos os erros PHP para facilitar a depuração durante o desenvolvimento
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 session_start();
 
+// Garante que o usuário esteja logado antes de acessar a página
 if (!isset($_SESSION['usuario_id'])) {
     header('Location: login.php?form=login');
     exit;
@@ -8,6 +14,7 @@ if (!isset($_SESSION['usuario_id'])) {
 
 include '../php/conexao.php';
 
+// Padronização do nome da variável de conexão com o banco de dados
 if (isset($conexao) && !isset($conn)) {
     $conn = $conexao;
 }
@@ -16,10 +23,12 @@ $usuario_id = $_SESSION['usuario_id'];
 $mensagem_sucesso = "";
 $mensagem_erro = "";
 
+// Processamento do formulário quando enviado via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $novo_nome = mysqli_real_escape_string($conn, $_POST['nome']);
     $novo_telefone = mysqli_real_escape_string($conn, $_POST['telefone']);
 
+    // Utiliza Prepared Statement para atualização segura dos dados
     $stmt_update = $conn->prepare("UPDATE usuarios SET nome = ?, telefone = ? WHERE id = ?");
     $stmt_update->bind_param("ssi", $novo_nome, $novo_telefone, $usuario_id);
     
@@ -31,6 +40,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt_update->close();
 }
 
+// Busca as informações atualizadas do usuário logado para exibir nos campos
 $stmt_select = $conn->prepare("SELECT nome, email, telefone FROM usuarios WHERE id = ?");
 $stmt_select->bind_param("i", $usuario_id);
 $stmt_select->execute();
@@ -58,6 +68,7 @@ if (!$usuario) {
     <div class="account-card">
         <h1 class="account-title">Meus Dados</h1>
 
+        <!-- Feedback visual das ações (Sucesso ou Erro) -->
         <?php if ($mensagem_sucesso): ?>
             <p class="feedback-msg msg-sucesso"><?= $mensagem_sucesso ?></p>
         <?php endif; ?>
@@ -65,6 +76,7 @@ if (!$usuario) {
             <p class="feedback-msg msg-erro"><?= $mensagem_erro ?></p>
         <?php endif; ?>
 
+        <!-- Formulário para edição dos dados cadastrais -->
         <form method="POST" action="minha-conta.php">
             <div class="input-group">
                 <label>Nome Completo</label>
@@ -73,8 +85,8 @@ if (!$usuario) {
 
             <div class="input-group">
                 <label>E-mail (Login)</label>
-                <input type="email" value="<?= htmlspecialchars($usuario['email']) ?>" disabled style="background-color:
-                 #f5f5f5; color: #888; cursor: not-allowed;">
+                <!-- O e-mail permanece desabilitado para impedir alterações de credencial nesta tela -->
+                <input type="email" value="<?= htmlspecialchars($usuario['email']) ?>" disabled style="background-color: #f5f5f5; color: #888; cursor: not-allowed;">
             </div>
 
             <div class="input-group">
