@@ -54,6 +54,7 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
     </header>
 
     <main class="page-services">
+    
         <section class="services-header">
             <h1>Serviços</h1>
             <p>Tratamentos desenvolvidos para realçar sua beleza natural e proporcionar mais qualidade de vida.</p>
@@ -64,7 +65,8 @@ $usuario_nome = $usuario_logado ? $_SESSION['usuario_nome'] : '';
             <div class="service-row">
                 <div class="service-info-block">
                     <h2>Preenchimento labial</h2>
-                    <p>O preenchimento labial é um procedimento estético que realça a beleza natural dos lábios, trazendo mais volume, definição e hidratação, além de bem-estar.</p>
+                    <p>O preenchimento labial é um procedimento estético que realça a beleza natural dos lábios, trazendo mais volume,
+                    definição e hidratação, além de bem-estar.</p>
                     <span class="price">R$ 1.500,00</span>
                     <a href="agendar.php?servico=Preenchimento labial" class="btn-schedule">Agendar agora</a>
                 </div>
